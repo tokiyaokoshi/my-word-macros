@@ -1,7 +1,3 @@
-' ==============================================================================
-' Word専用 業務効率化マクロ一式（完全版）
-' ==============================================================================
-
 ' ==========================================
 ' 1. 初期設定（ショートカットキー一括登録）
 ' ==========================================
@@ -21,8 +17,10 @@ Sub SetupWordShortcuts()
     ' --- Ctrl + Shift 系 (自作マクロ) ---
     KeyBindings.Add KeyCode:=BuildKeyCode(vbKeyUp, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="TableAutoFitToContents"
     KeyBindings.Add KeyCode:=BuildKeyCode(vbKeyRight, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="TableAutoFitToWindow"
+    KeyBindings.Add KeyCode:=BuildKeyCode(vbKeyDown, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="TableAutoFitFixed"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyA, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="FillGray"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyD, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="DeleteBorders_Word"
+    KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyE, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="FillAqua"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyG, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="SetNormalBorderAroundSelection_Word"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyI, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="AddBorders_Word"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyQ, wdKeyControl, wdKeyShift), KeyCategory:=wdKeyCategoryMacro, Command:="FillLightGreen"
@@ -44,6 +42,7 @@ Sub SetupWordShortcuts()
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyA, wdKeyAlt), KeyCategory:=wdKeyCategoryMacro, Command:="InsertEquationSuperscript"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyB, wdKeyAlt), KeyCategory:=wdKeyCategoryMacro, Command:="ColorBlue"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyG, wdKeyAlt), KeyCategory:=wdKeyCategoryMacro, Command:="ColorGreen"
+    KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyN, wdKeyAlt), KeyCategory:=wdKeyCategoryMacro, Command:="RemoveLineBreaks"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyP, wdKeyAlt), KeyCategory:=wdKeyCategoryMacro, Command:="ColorMagenta"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyU, wdKeyAlt), KeyCategory:=wdKeyCategoryMacro, Command:="InsertEquationSubscript"
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyX, wdKeyAlt), KeyCategory:=wdKeyCategoryMacro, Command:="ColorRed"
@@ -68,7 +67,6 @@ Sub SetupWordShortcuts()
     
     MsgBox "Wordのショートカットキー一括設定が完了しました！", vbInformation
 End Sub
-
 
 ' ==========================================
 ' 2. 文字色変更マクロ
@@ -430,7 +428,7 @@ End Sub
 ' ==========================================
 ' 7. 便利機能・ユーティリティ
 ' ==========================================
-Sub 選択範囲の改行削除()
+Sub RemoveLineBreaks()
     Dim rng As Range: Set rng = Selection.Range
     With rng.Find
         .ClearFormatting
@@ -524,7 +522,7 @@ Sub ExportCustomShortcutsCatalog()
     
     ' 3. カタログに定義されているすべての自作マクロを網羅（未割り当て含む）
     allMacros = Array( _
-        "選択範囲の改行削除", "FillGray_And_BottomDoubleLine_Word", "DeleteBorders_Word", _
+        "RemoveLineBreaks", "FillGray_And_BottomDoubleLine_Word", "DeleteBorders_Word", _
         "AddBorders_Word", "AddBorders_OuterBold_InnerThin_Word", "SetNormalBorderAroundSelection_Word", _
         "TableAutoFitToContents", "TableAutoFitToWindow", "TableAutoFitFixed", _
         "InsertEmptyEquation", "InsertEquationSuperscript", "InsertEquationSubscript", _
@@ -589,8 +587,8 @@ End Sub
 
 Private Function GetMacroDescription(ByVal mName As String) As String
     Select Case mName
-        ' --- 自作マクロ ---
-        Case "選択範囲の改行削除": GetMacroDescription = "選択した範囲内にある邪魔な改行（^p）をすべて一瞬で消去します。"
+       ' --- 自作マクロ ---
+        Case "RemoveLineBreaks": GetMacroDescription = "選択した範囲内にある邪魔な改行（^p）をすべて一瞬で消去します。"
         Case "FillGray_And_BottomDoubleLine_Word": GetMacroDescription = "セルを薄いグレーで塗りつぶし、下部に美しい二重線を引きます（見出し用）。"
         Case "DeleteBorders_Word": GetMacroDescription = "選択した表、または段落のすべての罫線を完全に削除してまっさらにします。"
         Case "AddBorders_Word": GetMacroDescription = "表や段落に、標準的な黒の0.5ptの格子罫線を引きます。"
